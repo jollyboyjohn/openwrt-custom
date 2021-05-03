@@ -135,7 +135,8 @@ This builds the full build toolchain and the image.
 Do *not* perform a "make clean", otherwise the entire toolchain will be blown away, which takes a substantial amount of time.
 
 If the build fails, try with a single thread:
-```$ make -j1
+```
+$ make -j1
 ```
 
 Once complete, the image is written into the bin/ directory.
