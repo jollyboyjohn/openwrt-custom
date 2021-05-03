@@ -64,7 +64,9 @@ $ ./scripts/feeds install -a
 ### CONFIGURATION
 
 Configuration is done via the ncurses configuration:
-```$ make menuconfig``
+```
+$ make menuconfig
+```
 
 Set the profile of the platform to be built:
 
