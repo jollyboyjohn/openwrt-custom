@@ -1,0 +1,56 @@
+
+config interface 'loopback'
+	option ifname 'lo'
+	option proto 'static'
+	option ipaddr '127.0.0.1'
+	option netmask '255.0.0.0'
+
+config globals 'globals'
+	option ula_prefix 'fd8c:8835:7823::/48'
+
+# Standard BT setup: PTM VDSL, Annex B, All tones, w/ custom firmware
+config dsl 'dsl'
+	option xfer_mode 'ptm'
+	option line_mode 'vdsl'
+	option ds_snr_offset '0'
+	option annex 'b'
+	option tone 'av'
+	option firmware '/lib/firmware/dsl_vr9_firmware_xdsl-05.07.06.0A.00.07_05.07.01.0C.00.02.bin'
+
+# LAN ports as management
+config interface 'lan'
+	option type 'bridge'
+	option ifname 'eth0.1'
+	option proto 'static'
+	option ipaddr '192.168.1.2'
+	option netmask '255.255.255.0'
+	option ip6assign '60'
+	option gateway '192.168.1.1'
+	list dns '192.168.1.1'
+
+# Bridge DSL port with "LAN/WAN" port (Left-most ethernet)
+config interface 'modem'
+	option type 'bridge'
+	option proto 'none'
+	option ifname 'dsl0.101 eth0.2'
+	option auto '1'
+
+# VLAN the ethernet ports
+config switch
+	option name 'switch0'
+	option reset '1'
+	option enable_vlan '1'
+
+# VLAN 1: "LAN1, LAN2, LAN3" as eth0.1
+config switch_vlan
+	option device 'switch0'
+	option vlan '1'
+	option ports '6t 5 2 0'
+	option vid '1'
+
+# VLAN 2: "LAN/WAN" (Port 1) as eth0.2
+config switch_vlan 
+	option device 'switch0'
+	option vlan '2'
+	option ports '6t 4'
+	option vid '2'
